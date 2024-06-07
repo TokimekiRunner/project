@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>提交信息</title>
+</head>
+<body>
+<h2>localhost:8080</h2>
+<form action="/insert_achievement" method="POST">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id" required>
+    <br><br>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br><br>
+    <label for="level">Level:</label>
+    <input type="text" id="level" name="level" required>
+    <br><br>
+    <label for="type">Type:</label>
+    <select id="type" name="type" required>
+        <option value="Research">Research</option>
+        <option value="Award">Award</option>
+    </select>
+    <br><br>
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year" required>
+    <br><br>
+    <label for="person_id">Person ID:</label>
+    <input type="number" id="person_id" name="person_id" required>
+    <br><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

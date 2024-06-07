@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HashSet Content</title>
+    <script>
+        function displayHashSet() {
+            var hashSet = new Set();
+            // 将元素添加到hashSet
+
+            var list = document.getElementById("hashSetList");
+            hashSet.forEach(function (element) {
+                var listItem = document.createElement("li");
+                var textNode = document.createTextNode(element);
+                listItem.appendChild(textNode);
+                list.appendChild(listItem);
+            });
+        }
+    </script>
+</head>
+<body onload="displayHashSet()">
+<h1>HashSet Content:</h1>
+<ul id="hashSetList"></ul>
+</body>
+</html>
