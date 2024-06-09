@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper是mapper.xml文件的根标签,mapper标签内，编写sql语句
+	namespace:命名空间，区分每个mapper.xml
+    取值格式：mapper文件所在包的包名.mapper文件名(不带后缀)
+ -->
+<mapper namespace="com.example.demo.mapper.TestMapper">
+    <!-- 在这里用标签编写sql语句 -->
+    <select id="getall"  resultType="com.example.demo.entity.Achievement">
+        select * from achievements
+    </select>
+
+</mapper>

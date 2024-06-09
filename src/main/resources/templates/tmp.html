@@ -43,7 +43,12 @@
             height: 34px;
         }
 
-        input[type="submit"] {
+        .additional-fields {
+            display: none;
+        }
+
+        .submit-button {
+            margin-top: 10px;
             background-color: #4CAF50;
             color: #fff;
             border: none;
@@ -56,9 +61,32 @@
             cursor: pointer;
         }
     </style>
+    <script>
+        function showAdditionalFields() {
+            var typeSelect = document.getElementById("type");
+            var additionalFields = document.getElementsByClassName("additional-fields");
+
+            for (var i = 0; i < additionalFields.length; i++) {
+                additionalFields[i].style.display = "none";
+                additionalFields[i].removeAttribute("required");
+            }
+
+            if (typeSelect.value === "Award") {
+                document.getElementById("additionalFieldLabel").textContent = "Award Level:";
+                document.getElementById("additionalFieldInput").setAttribute("name", "awardLevel");
+                document.getElementById("additionalFieldsContainer").style.display = "block";
+                document.getElementById("additionalFieldInput").setAttribute("required", "required");
+            } else if (typeSelect.value === "Research") {
+                document.getElementById("additionalFieldLabel").textContent = "Research Author:";
+                document.getElementById("additionalFieldInput").setAttribute("name", "researchAuthor");
+                document.getElementById("additionalFieldsContainer").style.display = "block";
+                document.getElementById("additionalFieldInput").setAttribute("required", "required");
+            }
+        }
+    </script>
 </head>
 <body>
-<h2>科研成果管理系统</h2>
+<h2>提交信息</h2>
 <form action="/insert_achievement" method="POST">
     <label for="id">ID:</label>
     <input type="number" id="id" name="id" required>
@@ -70,7 +98,7 @@
     <input type="text" id="level" name="level" required>
     <br><br>
     <label for="type">Type:</label>
-    <select id="type" name="type" required>
+    <select id="type" name="type" required onchange="showAdditionalFields()">
         <option value="Research">Research</option>
         <option value="Award">Award</option>
     </select>
@@ -81,7 +109,12 @@
     <label for="person_id">Person ID:</label>
     <input type="number" id="person_id" name="person_id" required>
     <br><br>
-    <input type="submit" value="提交">
+    <div id="additionalFieldsContainer" class="additional-fields">
+        <label id="additionalFieldLabel" for="additionalFieldInput"></label>
+        <input type="text" id="additionalFieldInput" required>
+    </div>
+    <br><br>
+    <input type="submit" value="提交" class="submit-button">
 </form>
 </body>
 </html>

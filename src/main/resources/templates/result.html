@@ -1,19 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>JSON Data Display</title>
+    <title>科研成果管理系统</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
         table {
             border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         table, th, td {
             border: 1px solid black;
-            padding: 5px;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
+
 <table>
     <tr>
         <th>ID</th>
@@ -23,7 +61,8 @@
         <th>Person ID</th>
         <th>Level</th>
     </tr>
-    <tr th:each="jsonData : ${jsonDataList}">
+
+    <tr th:each="jsonData, rowStatus : ${jsonDataList}" th:class="${rowStatus.odd} ? 'odd' : 'even'">
         <td th:text="${jsonData.id}"></td>
         <td th:text="${jsonData.name}"></td>
         <td th:text="${jsonData.category}"></td>
@@ -32,5 +71,10 @@
         <td th:text="${jsonData.level}"></td>
     </tr>
 </table>
+
+<a href="/download" download>
+    <button>Download Template</button>
+</a>
+
 </body>
 </html>

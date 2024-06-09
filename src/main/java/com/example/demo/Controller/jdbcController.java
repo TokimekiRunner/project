@@ -2,14 +2,18 @@ package com.example.demo.Controller;
 
 import com.example.demo.Share;
 import com.example.demo.Util.ExcelUtils;
+import com.example.demo.Util.MybatisUtil;
 import com.example.demo.entity.Achievement;
 import com.example.demo.entity.Book;
+import com.example.demo.mapper.TestMapper;
 import com.example.demo.service.AchievementService;
 import com.example.demo.service.BookService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -26,7 +30,8 @@ import java.util.Map;
 
 import com.example.demo.entity.*;
 @Component
-@Controller
+@RestController
+@CrossOrigin
 public class jdbcController {
     Share share = new Share();
 
@@ -40,11 +45,31 @@ public class jdbcController {
     @ResponseBody
     //写一个list请求，查询数据库信息
     @RequestMapping("/all")
-    public List<Book> list(){
-        System.out.println("hello"+share.getTmpachievements());
-        return bookService.getBooks();
+    public List<Achievement> list(){
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        // 执行sql
+        //方式一：getMapper
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        List<Achievement> achievements = mapper.getall();
+
+
+        //关闭sqlSession
+        sqlSession.close();
+        return achievements;
     }
 
+
+    @PostMapping("/test")
+    public String handleAjaxRequest(@RequestBody String jsonData) {
+        Gson gson = new Gson();
+        SearchObject searchObject = gson.fromJson(jsonData, SearchObject.class);
+        System.out.println(searchObject.getResearchAuthor());
+        System.out.println(searchObject.getId());
+        if(searchObject.getId().isEmpty()){
+            System.out.println("yes");
+        }
+        return "success";
+    }
     @RequestMapping("/download")
     public void testExcel(HttpServletResponse response) throws IOException {
         List<AchievementDO> achievementDOList = new ArrayList<>();
@@ -156,7 +181,7 @@ public class jdbcController {
         System.out.println(achievementlist);
         System.out.println(personlist);
         model.addAttribute("jsonDataList",AchList);
-
+        share.setTmpachievements(AchList);
         return "result";
     }
 
@@ -184,6 +209,7 @@ public class jdbcController {
        System.out.println(achievementlist);
         System.out.println(personlist);
         model.addAttribute("jsonDataList",AchList);
+        share.setTmpachievements(AchList);
 
         return "result";
     }
@@ -212,6 +238,7 @@ public class jdbcController {
         System.out.println(achievementlist);
         System.out.println(personlist);
         model.addAttribute("jsonDataList",AchList);
+        share.setTmpachievements(AchList);
 
         return "result";
     }
@@ -239,6 +266,7 @@ public class jdbcController {
         System.out.println(achievementlist);
         System.out.println(personlist);
         model.addAttribute("jsonDataList",AchList);
+        share.setTmpachievements(AchList);
 
         return "result";
     }

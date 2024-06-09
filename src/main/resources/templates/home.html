@@ -2,28 +2,50 @@
 <html>
 <head>
     <title>Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-<h2>Welcome to the Homepage</h2>
+<h2>科研成果管理系统</h2>
 
-<button onclick="location.href='/getachievements'">Get Achievements</button>
-<br><br>
-
-<button onclick="location.href='/add'">Add Achievement</button>
-<br><br>
-
-<button onclick="location.href='/searchbyid'">Search by ID</button>
-<br><br>
-
-<button onclick="location.href='/searchbypersonname'">Search by Person Name</button>
-<br><br>
-
-<button onclick="location.href='/searchbyachname'">Search by Achievement Name</button>
-<br><br>
-
-<button onclick="location.href='/searchbytype'">Search by Type</button>
-<br><br>
-
-<button onclick="location.href='/deletebyid'">Delete by ID</button>
+<div class="btn-container">
+    <button onclick="location.href='/getachievements'">Get Achievements</button>
+    <button onclick="location.href='/add'">Add Achievement</button>
+    <button onclick="location.href='/searchbyid'">Search by ID</button>
+    <button onclick="location.href='/searchbypersonname'">Search by Person Name</button>
+    <button onclick="location.href='/searchbyachname'">Search by Achievement Name</button>
+    <button onclick="location.href='/searchbytype'">Search by Type</button>
+    <button onclick="location.href='/deletebyid'">Delete by ID</button>
+</div>
 </body>
 </html>
