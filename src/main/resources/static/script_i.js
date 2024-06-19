@@ -66,11 +66,26 @@ $(document).ready(function () {
           contentType: 'application/json',
           success: function (response) {
             console.log(response);
-            var message = JSON.stringify(response);
-            $("<div class='success-message'>" + message + "</div>").appendTo("body").fadeIn();
-            setTimeout(function(){
-              $(".success-message").fadeOut();
-            }, 3000);
+            var message = "";
+
+            console.log(response[0].category);
+
+            if(response[0].category === "research") {
+              message = "成果编号: " + response[0].id + ", \n成果名称: " + response[0].name + ", \n成果种类: " + response[0].category + ", \n成果年份: " + response[0].year + ", \n成果等级: " + response[0].level + ", \n会议等级: " + response[0].meeting_level + ", \n会议名: " + response[0].meeting_name + ", \n\n人员编号: " + response[0].person_id + ", \n人员姓名: " + response[0].personname + ", \n人员部门: " + response[0].department + ", \n人员职称: " + response[0].position;
+              console.log(message);
+            } else if (response[0].category === "award") {
+              message = "成果编号: " + response[0].id + ", \n成果名称: " + response[0].name + ", \n成果种类: " + response[0].category + ", \n成果年份: " + response[0].year + ", \n成果等级: " + response[0].level + ", \n获奖等级: " + response[0].award_level + ", \n获奖来源: " + response[0].award_source + ", \n\n人员编号: " + response[0].person_id + ", \n人员姓名: " + response[0].personname + ", \n人员部门: " + response[0].department + ", \n人员职称: " + response[0].position;
+              console.log(message);
+            } else if (response[0].category === "patent") {
+              message = "成果编号: " + response[0].id + ", \n成果名称: " + response[0].name + ", \n成果种类: " + response[0].category + ", \n成果年份: " + response[0].year + ", \n成果等级: " + response[0].level + ", \n专利号: " + response[0].patent_num + ", \n\n人员编号: " + response[0].person_id + ", \n人员姓名: " + response[0].personname + ", \n人员部门: " + response[0].department + ", \n人员职称: " + response[0].position;
+              console.log(message);
+            } else if (response[0].category === "visit") {
+              message = "成果编号: " + response[0].id + ", \n成果名称: " + response[0].name + ", \n成果种类: " + response[0].category + ", \n成果年份: " + response[0].year + ", \n成果等级: " + response[0].level + ", \n出访目的地: " + response[0].dest + ", \n出访时长: " + response[0].period + ", \n\n人员编号: " + response[0].person_id + ", \n人员姓名: " + response[0].personname + ", \n人员部门: " + response[0].department + ", \n人员职称: " + response[0].position;
+              console.log(message);
+            }
+
+            $(".popup-message").text(message);
+            $(".popup").show();
           },
 
           error: function (error) {
@@ -80,4 +95,8 @@ $(document).ready(function () {
       });
     });
   }
+});
+
+$(document).on("click", ".popup-close", function() {
+  $(".popup").hide();
 });

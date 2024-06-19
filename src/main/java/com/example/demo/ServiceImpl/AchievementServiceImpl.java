@@ -105,42 +105,59 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     @Override
-    public float calwork(List<Achievement> achievements){
+    public List<Everything> calwork(List<Everything> everythings){
         float totalscore = 0;
-        SqlSession sqlSession = MybatisUtil.getSqlSession();
-        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
-        for (Achievement item : achievements) {
+//        SqlSession sqlSession = MybatisUtil.getSqlSession();
+//        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        for (Everything item : everythings) {
             int tmp = 0;
-            Everything everything = new Everything();
-            if (item.getLevel().equals("A")){
+            if (item.getLevel().equals("国家级")){
                 tmp = 3;
-            }else if (item.getLevel().equals("B")){
+            }else if (item.getLevel().equals("省级")){
                 tmp = 2;
-            } else if (item.getLevel().equals("C")){
+            } else if (item.getLevel().equals("校级")){
                 tmp = 1;
             }
+            System.out.println(item.getCategory());
             switch (item.getCategory()){
                 case "research":
-                     everything = mapper.allsearch(item.getId());
-                    if(everything.getMeeting_level().equals("A")){
+                    if(item.getMeeting_level().equals("A")){
                         totalscore += tmp*3;
-                    }else if (everything.getMeeting_level().equals("B")){
+                        item.setCalscore(tmp*3);
+                    }else if (item.getMeeting_level().equals("B")){
                         totalscore += tmp*2;
-                    } else if (everything.getMeeting_level().equals("C")){
+                        item.setCalscore(tmp*2);
+                    } else if (item.getMeeting_level().equals("C")){
                         totalscore += tmp*1;
+                        item.setCalscore(tmp*1);
+
                     }
                     break;
-                    case "award":
-                        everything = mapper.awardsearch(item.getId());
-                        if(everything.getAward_level().equals("一等奖")){
-                            System.out.println("Chinese!!!");
+                case "award":
+                        if(item.getAward_level().equals("一等奖")){
+                            totalscore += tmp*3;
+                            item.setCalscore(tmp*3);
+                        } else if (item.getAward_level().equals("二等奖")){
+                            totalscore += tmp*2;
+                            item.setCalscore(tmp*2);
+                        }else if (item.getAward_level().equals("三等奖")){
+                            totalscore += tmp*1;
+                            item.setCalscore(tmp*1);
                         }
                         break;
+                case "patent":
+                    totalscore+=tmp*1.5;
+                    item.setCalscore((float) (tmp*1.5));
+                    break;
+                case "visit":
+                    int num = Integer.parseInt(item.getPeriod());
+                    totalscore+=tmp*0.1*num;
+                    item.setCalscore((float) (tmp*0.1*num));
+                    break;
             }
 
         }
-
-        return totalscore;
+        return everythings;
     }
 
     @Override

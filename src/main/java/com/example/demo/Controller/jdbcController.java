@@ -72,7 +72,7 @@ public class jdbcController {
         //方式一：getMapper
         TestMapper mapper = sqlSession.getMapper(TestMapper.class);
         List<Everything> everythings = mapper.dsearch(everything);
-       // System.out.println(achievementService.calwork(achievements));
+       System.out.println(achievementService.calwork(everythings));
       sqlSession.close();
         return everythings;
     }
@@ -142,11 +142,11 @@ public class jdbcController {
 
   @PostMapping("/insertperson")
   public void InsertPerson(@RequestBody String jsonData) {
-      Gson gson = new Gson();
-      System.out.println(jsonData);
-      Person person = gson.fromJson(jsonData, Person.class);
-      achievementService.InsertPerson(person);
-      return;
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    Person person = gson.fromJson(jsonData, Person.class);
+    achievementService.InsertPerson(person);
+    return;
   }
 
   @PostMapping("/getperson")
@@ -166,4 +166,5 @@ public class jdbcController {
     achievementService.DeletePerson(person);
     return ;
   }
+
 }

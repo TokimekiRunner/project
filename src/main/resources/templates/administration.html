@@ -35,11 +35,13 @@
 <br>
 
 <div class="input_div">
-  <label for="function">功能选择：</label>
+  <label for="function">&nbsp;&nbsp;&nbsp;功能选择：</label>
   <select class="select" id="function">
     <option value="none">-请选择-</option>
     <option value="add">新增成果信息</option>
     <option value="delete">删除成果信息</option>
+    <option value="add_p">新增人员信息</option>
+    <option value="delete_p">删除人员信息</option>
   </select>
 </div>
 
@@ -86,7 +88,12 @@
 
       <div class="input_div" align="center">
         <label for="level_a">成果等级：</label>
-        <input type="text" id="level_a" name="level">
+        <select class="select" id="level_a" name="level">
+          <option value="">-请选择-</option>
+          <option value="国家级">国家级</option>
+          <option value="省级">省级</option>
+          <option value="校级">校级</option>
+        </select>
       </div>
 
       <br>
@@ -125,7 +132,12 @@
 
         <div class="input_div" align="center">
           <label for="award_level">获奖等级：</label>
-          <input type="text" id="award_level" name="award_level">
+          <select class="select" id="award_level" name="award_level">
+            <option value="">-请选择-</option>
+            <option value="一等奖">一等奖</option>
+            <option value="二等奖">二等奖</option>
+            <option value="三等奖">三等奖</option>
+          </select>
         </div>
 
         <br>
@@ -179,16 +191,78 @@
   </form>
 </div>
 
+<!--新增人员功能-->
+<div id="add_p_form" class="container" style="display: none;">
+  <form name="add_p" action="" method="post">
+    <fieldset class="field">
+      <legend>新增人员信息：</legend>
+      <div class="input_div" align="center">
+        <label for="id_p_a">人员编号：</label>
+        <input type="text" id="id_p_a" name="person_id">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="name_p_a">人员姓名：</label>
+        <input type="text" id="name_p_a" name="personname">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="department_p_a">人员部门：</label>
+        <input type="text" id="department_p_a" name="department">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="position_p_a">人员职称：</label>
+        <input type="text" id="position_p_a" name="position">
+      </div>
+
+      <br>
+
+      <button type="submit" class="submit">新增</button>
+      
+    </fieldset>
+  </form>
+</div>
+
+<!--删除人员功能-->
+<div id="delete_p_form" class="container" style="display: none;">
+  <form name="delete_p" action="" method="post">
+    <fieldset class="field">
+      <legend>删除人员信息：</legend>
+      <div class="input_div" align="center">
+        <label for="id_p_d">待删除人员编号：</label>
+        <input type="text" id="id_p_d" name="person_id">
+        <button type="submit" class="button_a">删除</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
 <br>
 
-<div class="prompt" id="insert_s" style="display: none">成功插入以下数据：</div>
+<div class="prompt" id="insert_s" style="display: none">成功插入以下成果信息：</div>
 <div class="prompt" id="insert_e" style="display: none">插入失败！！！</div>
-<div class="prompt" id="delete_s" style="display: none">成功删除以下数据：</div>
+<div class="prompt" id="delete_s" style="display: none">请确认是否删除以下成果信息：</div>
 <div class="prompt" id="delete_e" style="display: none">删除失败！！！</div>
+<div class="prompt" id="insert_p_s" style="display: none">成功插入以下人员信息：</div>
+<div class="prompt" id="insert_p_e" style="display: none">插入失败！！！</div>
+<div class="prompt" id="delete_p_s" style="display: none">请确认是否删除以下人员信息：</div>
+<div class="prompt" id="delete_p_e" style="display: none">删除失败！！！</div>
 
 <br>
 
 <table align="center"></table>
+
+<br>
+
+<button type="button" id="confirm_delete" class="submit_cd" style="display: none;">确认删除</button>
+<button type="button" id="confirm_delete_p" class="submit_cd" style="display: none;">确认删除</button>
 
 <br>
 

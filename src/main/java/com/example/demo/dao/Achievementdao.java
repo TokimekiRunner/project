@@ -1,14 +1,12 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.Achievement;
-import com.example.demo.entity.Book;
 import com.example.demo.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -25,7 +23,7 @@ public class Achievementdao {
     public int insertPerson(Person person) {
         String sql = "INSERT INTO persons (person_id, personname, department, position) VALUES (?,?, ?, ?)";
 
-        return jdbcTemplate.update(sql, person.getPersonId(), person.getPersonname(), person.getDepartment(), person.getPosition());
+        return jdbcTemplate.update(sql, person.getPerson_id(), person.getPersonname(), person.getDepartment(), person.getPosition());
     }
 
     public List<Achievement> getAchievementList() {

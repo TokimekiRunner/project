@@ -87,12 +87,12 @@
 
     <insert id="insertperson" parameterType="com.example.demo.entity.Person">
         INSERT INTO persons (person_id,personname,department,position)
-        VALUES (#{personId},#{personname},#{department},#{position})
+        VALUES (#{person_id},#{personname},#{department},#{position})
     </insert>
     <select id="getperson" resultType="com.example.demo.entity.Person" parameterType="com.example.demo.entity.Person">
-        SELECT * from persons where person_id = #{personId}
+        SELECT * from persons where person_id = #{person_id}
     </select>
     <delete id="deleteperson" parameterType="com.example.demo.entity.Person">
-        DELETE FROM persons WHERE person_id = #{personId}
+        DELETE FROM persons WHERE person_id = #{person_id}
     </delete>
 </mapper>

@@ -15,6 +15,35 @@ public class Everything {
   public String dest;
   public String period;
   public String personname;
+  public String department;
+
+  public String getPosition() {
+    return position;
+  }
+
+  public void setPosition(String position) {
+    this.position = position;
+  }
+
+  public String getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(String department) {
+    this.department = department;
+  }
+
+  public String position;
+  public float calscore;
+  public float getCalscore() {
+    return calscore;
+  }
+
+  public void setCalscore(float calscore) {
+    this.calscore = calscore;
+  }
+
+
 
   public String getId() {
     return id;

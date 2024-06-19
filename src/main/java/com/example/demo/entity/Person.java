@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
 public class Person {
-    private int personId;
+    private int person_id;
     private String personname;
     private String department;
     private String position;
@@ -10,18 +10,18 @@ public class Person {
     }
 
     public Person(int personId, String name, String department, String position) {
-        this.personId = personId;
+        this.person_id = personId;
         this.personname = name;
         this.department = department;
         this.position = position;
     }
 
-    public int getPersonId() {
-        return personId;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getPersonname() {

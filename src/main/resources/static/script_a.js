@@ -1,35 +1,20 @@
-
-function triggerDelete(deldata) {
-  console.log("In delete");
-  console.log(deldata);
-  var jsonData = JSON.stringify(deldata);
-
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8080/delete",
-    data: jsonData,
-    contentType:'application/json',
-    success: function(response) {
-      // 处理成功响应
-      console.log("success del");
-      console.log(response);
-
-    },
-    error: function(error) {
-
-      console.log(error);
-    }
-  });
-}
-
 $(document).ready(function() {
   $("#function").change(function(){
     var selected_option = $(this).val();
     $(".container").hide();
+    $(".prompt").hide();
+    $("#confirm_delete").hide();
+    $("#confirm_delete_p").hide();
+    var table = $("table");
+    table.empty();
     if(selected_option == "add") {
       $("#add_form").show();
     } else if (selected_option == "delete") {
       $("#delete_form").show();
+    } else if (selected_option == "add_p") {
+      $("#add_p_form").show();
+    } else if (selected_option == "delete_p") {
+      $("#delete_p_form").show();
     }
   });
 
@@ -86,74 +71,11 @@ $(document).ready(function() {
     });
   });
 
-  $("form[name='delete']").submit(function (event) {
-    event.preventDefault();
-
-    var formData = {};
-    $(this).serializeArray().forEach(function (item) {
-      formData[item.name] = item.value;
-    });
-
-    var jsonData = JSON.stringify(formData);
-    console.log(jsonData);
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:8080/test",
-      data: jsonData,
-      contentType: 'application/json',
-      success: function (response) {
-        // 处理成功响应
-
-        console.log("success");
-        console.log(response);
-        responseData = response;
-        $(".prompt").hide();
-        $("#delete_s").show();
-        renderTable_d(response);
-        $("<div class='success-message'>删除成功</div>").appendTo("body").fadeIn();
-        setTimeout(function(){
-          $(".success-message").fadeOut();
-        }, 3000);
-
-        $('form[name="delete"] input[type="text"]').val('');
-        triggerDelete(response);
-      },
-      error: function (error) {
-        // 处理错误响应
-        $(".prompt").hide();
-        $("#delete_e").show();
-        console.log(error);
-      }
-    });
-  });
-
   function renderTable_a(data) {
     var table = $("table");
     table.empty();
 
     var jsonData = JSON.parse(data);
-
-    // 添加表头
-    // var headerRow = $("<tr>");
-    // headerRow.append("<th>ID</th>");
-    // headerRow.append("<th>Name</th>");
-    // headerRow.append("<th>Category</th>");
-    // headerRow.append("<th>Year</th>");
-    // headerRow.append("<th>Person ID</th>");
-    // headerRow.append("<th>Level</th>");
-    // table.append(headerRow);
-
-    // 添加数据行
-    // var row = $("<tr>");
-    // row.append("<td>" + jsonData.id + "</td>");
-    // row.append("<td>" + jsonData.name + "</td>");
-    // row.append("<td>" + jsonData.category + "</td>");
-    // row.append("<td>" + jsonData.year + "</td>");
-    // row.append("<td>" + jsonData.person_id + "</td>");
-    // row.append("<td>" + jsonData.level + "</td>");
-    // table.append(row);
-
-
 
     const keys = Object.keys(jsonData).filter(key => jsonData[key] !== "");
     var headerRow = $("<tr>");
@@ -167,6 +89,57 @@ $(document).ready(function() {
     });
     table.append(row);
   }
+
+  $("form[name='delete']").submit(function (event) {
+    event.preventDefault();
+
+    var formData = {};
+    $(this).serializeArray().forEach(function (item) {
+      formData[item.name] = item.value;
+    });
+
+    var jsonData = JSON.stringify(formData);
+
+    console.log(jsonData);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/test",
+      data: jsonData,
+      contentType: 'application/json',
+      success: function (response) {
+        // 处理成功响应
+        console.log(response);
+        responseData = response;
+        console.log(response[0]);
+        if(response[0] === undefined) {
+          $(".prompt").hide();
+          $("#delete_e").show();
+          var table = $("table");
+          table.empty();
+          console.log("error");
+        } else {
+          console.log("success");
+          $(".prompt").hide();
+          $("#delete_s").show();
+          renderTable_d(response);
+          $("#confirm_delete").show();
+
+          $("#confirm_delete").click(function() {
+            triggerDelete(response);
+            $("#confirm_delete").hide();
+          });
+        }
+      },
+      error: function (error) {
+        // 处理错误响应
+        $(".prompt").hide();
+        $("#delete_e").show();
+        var table = $("table");
+        table.empty();
+        console.log(error);
+      }
+    });
+  });
 
   function renderTable_d(data) {
     var table = $("table");
@@ -193,6 +166,202 @@ $(document).ready(function() {
       row.append("<td>" + achievement.person_id + "</td>");
       row.append("<td>" + achievement.level + "</td>");
       table.append(row);
+    });
+  }
+
+  function triggerDelete(deldata) {
+    console.log("In delete");
+    console.log(deldata);
+    var jsonData = JSON.stringify(deldata);
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/delete",
+      data: jsonData,
+      contentType:'application/json',
+      success: function(response) {
+        // 处理成功响应
+        $(".prompt").hide();
+        var table = $("table");
+        table.empty();
+        console.log("success del");
+        console.log(response);
+        $("<div class='success-message'>删除成功</div>").appendTo("body").fadeIn();
+        setTimeout(function(){
+          $(".success-message").fadeOut();
+        }, 3000);
+      },
+      error: function(error) {
+        $(".prompt").hide();
+        $("#delete_e").show();
+        var table = $("table");
+        table.empty();
+        console.log("error");
+      }
+    });
+  }
+
+  // 新增人员
+  $("form[name='add_p']").submit(function(event) {
+    event.preventDefault();
+
+    var formData = {};
+    $(this).serializeArray().forEach(function(item) {
+      formData[item.name] = item.value;
+    });
+
+    var jsonData = JSON.stringify(formData);
+    console.log(jsonData);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/insertperson",
+      data: jsonData,
+      contentType:'application/json',
+      success: function(response) {
+        // 处理成功响应
+        console.log("success");
+        console.log(response);
+        responseData = response;
+        $(".prompt").hide();
+        $("#insert_p_s").show();
+        renderTable_a_p(jsonData);
+        $("<div class='success-message'>插入成功</div>").appendTo("body").fadeIn();
+        setTimeout(function(){
+          $(".success-message").fadeOut();
+        }, 3000);
+
+        $('form[name="add_p"] input[type="text"]').val('');
+      },
+      error: function(error) {
+        // 处理错误响应
+        $(".prompt").hide();
+        $("#insert_p_e").show();
+        console.log("error");
+      }
+    });
+  });
+
+  function renderTable_a_p(data) {
+    var table = $("table");
+    table.empty();
+
+    var jsonData = JSON.parse(data);
+
+    const keys = Object.keys(jsonData).filter(key => jsonData[key] !== "");
+    var headerRow = $("<tr>");
+    keys.forEach(key => {
+      headerRow.append("<th>" + key + "</th>");
+    });
+    table.append(headerRow);
+    var row = $("<tr>");
+    keys.forEach(key => {
+      row.append("<td>" + jsonData[key] + "</td>");
+    });
+    table.append(row);
+  }
+
+  $("form[name='delete_p']").submit(function (event) {
+    event.preventDefault();
+
+    var formData = {};
+    $(this).serializeArray().forEach(function (item) {
+      formData[item.name] = item.value;
+    });
+
+    var jsonData = JSON.stringify(formData);
+
+    console.log(jsonData);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/getperson",
+      data: jsonData,
+      contentType: 'application/json',
+      success: function (response) {
+        // 处理成功响应
+        console.log(response);
+        responseData = response;
+        console.log(response);
+        if(response === null) {
+          $(".prompt").hide();
+          $("#delete_p_e").show();
+          var table = $("table");
+          table.empty();
+          console.log("error");
+        } else {
+          console.log("success");
+          $(".prompt").hide();
+          $("#delete_p_s").show();
+          renderTable_d_p(response);
+          $("#confirm_delete_p").show();
+
+          $("#confirm_delete_p").click(function() {
+            triggerDelete_p(response);
+            $("#confirm_delete_p").hide();
+          });
+        }
+      },
+      error: function (error) {
+        // 处理错误响应
+        $(".prompt").hide();
+        $("#delete_p_e").show();
+        var table = $("table");
+        table.empty();
+        console.log("error");
+      }
+    });
+  });
+
+  function renderTable_d_p(data) {
+    var table = $("table");
+    table.empty();
+
+    // 添加表头
+    var headerRow = $("<tr>");
+    headerRow.append("<th>person_id</th>");
+    headerRow.append("<th>person_name</th>");
+    headerRow.append("<th>department</th>");
+    headerRow.append("<th>position</th>");
+    table.append(headerRow);
+
+    // 添加数据行
+    var jsonData = data;
+    var row = $("<tr>");
+    row.append("<td>" + jsonData.person_id + "</td>");
+    row.append("<td>" + jsonData.personname + "</td>");
+    row.append("<td>" + jsonData.department + "</td>");
+    row.append("<td>" + jsonData.position + "</td>");
+    table.append(row);
+  }
+
+  function triggerDelete_p(deldata) {
+    console.log("In delete");
+    console.log(deldata);
+    var jsonData = JSON.stringify(deldata);
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/deleteperson",
+      data: jsonData,
+      contentType:'application/json',
+      success: function(response) {
+        // 处理成功响应
+        $(".prompt").hide();
+        var table = $("table");
+        table.empty();
+        console.log("success del");
+        console.log(response);
+        $("<div class='success-message'>删除成功</div>").appendTo("body").fadeIn();
+        setTimeout(function(){
+          $(".success-message").fadeOut();
+        }, 3000);
+      },
+      error: function(error) {
+        $(".prompt").hide();
+        $("#delete_p_e").show();
+        var table = $("table");
+        table.empty();
+        console.log("error");
+      }
     });
   }
 });

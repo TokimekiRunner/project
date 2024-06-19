@@ -18,7 +18,7 @@ public interface AchievementService
     String getAchievementByPersonname(String name);
     String getAchievementByname(String name);
     String getAchievementBytype(String type);
-    float calwork(List<Achievement> achievements);
+    List<Everything> calwork(List<Everything> everythings);
     int Insert(Everything everything);
     int Delete(Everything everything);
 
