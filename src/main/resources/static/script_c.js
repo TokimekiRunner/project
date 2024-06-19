@@ -12,19 +12,69 @@ $(document).ready(function () {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/test",
+      url: "http://localhost:8080/calculate",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
         // 处理成功响应
-        console.log("success");
-        console.log(response);
-        responseData = response;
-        renderTable(response);
+        if(response[0]===undefined){
+          $("#download").hide();
+          var table = $("#table_1");
+          table.empty();
+          var table = $("#table_2");
+          table.empty();
+          $(".prompt").hide();
+          $("#cal_e").show();
+          console.log("error");
+        } else {
+          $(".prompt").hide();
+          $("#cal_s").show();
+          console.log("success");
+          console.log(response);
+          responseData = response;
+          renderTable(response);
+          $("#download").show();
+
+          $("#download").click(function() {
+            console.log("巩爷就是神！");
+            var jsonData = JSON.stringify(response);
+            // 创建 XMLHttpRequest 对象
+            var request = new XMLHttpRequest();
+            request.open('POST', "http://localhost:8080/download", true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.responseType = 'blob';
+
+            request.onload = function(e) {
+              if (this.status === 200) {
+                var blob = this.response;
+                if (window.navigator.msSaveOrOpenBlob) {
+                  window.navigator.msSaveBlob(blob, "test.xlsx");
+                } else {
+                  var downloadLink = window.document.createElement('a');
+                  downloadLink.href = window.URL.createObjectURL(blob);
+                  downloadLink.download = "test.xlsx";
+                  document.body.appendChild(downloadLink);
+                  downloadLink.click();
+                  document.body.removeChild(downloadLink);
+                }
+              }
+            };
+
+            // 发送 AJAX POST 请求
+            request.send(jsonData);
+          });
+        }
       },
       error: function (error) {
         // 处理错误响应
-        console.log(error);
+        var table = $("#table_1");
+        table.empty();
+        var table = $("#table_2");
+        table.empty();
+        $("#download").hide();
+        $(".prompt").hide();
+        $("#cal_e").show();
+        console.log("error");
       }
     });
   });
@@ -46,6 +96,7 @@ $(document).ready(function () {
 
     // 添加数据行
     var jsonData = data;
+    var workload = 0;
     jsonData.forEach(function (achievement) {
       var row = $("<tr>");
       row.append("<td>" + achievement.id + "</td>");
@@ -54,8 +105,9 @@ $(document).ready(function () {
       row.append("<td>" + achievement.year + "</td>");
       row.append("<td>" + achievement.person_id + "</td>");
       row.append("<td>" + achievement.level + "</td>");
-      row.append("<td>" + achievement.level + "</td>");
+      row.append("<td>" + achievement.calscore + "</td>");
       table.append(row);
+      workload += achievement.calscore;
 
       row.on("click", function() {
         $(".success-message").remove();
@@ -96,6 +148,16 @@ $(document).ready(function () {
         });
       });
     });
+    var table_ = $("#table_2");
+    table_.empty();
+    var headerRow_ = $("<tr>");
+    headerRow_.append("<th>人员姓名</th>");
+    headerRow_.append("<th>人员工作量</th>");
+    table_.append(headerRow_);
+    var row_ = $("<tr>");
+    row_.append("<td>" + jsonData[0].personname + "</td>");
+    row_.append("<td>" + workload + "</td>");
+    table_.append(row_);
   }
 });
 

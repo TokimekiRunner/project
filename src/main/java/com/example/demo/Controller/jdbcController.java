@@ -72,11 +72,31 @@ public class jdbcController {
         //方式一：getMapper
         TestMapper mapper = sqlSession.getMapper(TestMapper.class);
         List<Everything> everythings = mapper.dsearch(everything);
-       System.out.println(achievementService.calwork(everythings));
+     //  System.out.println(achievementService.calwork(everythings));
       sqlSession.close();
         return everythings;
     }
 
+
+  @PostMapping("/calculate")
+  public List<Everything> Calculate(@RequestBody String jsonData) {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    //    SearchObject searchObject = gson.fromJson(jsonData, SearchObject.class);
+    Everything everything = gson.fromJson(jsonData, Everything.class);
+    if(everything.getPerson_id().length()!=0){
+    SqlSession sqlSession = MybatisUtil.getSqlSession();
+    // 执行sql
+    //方式一：getMapper
+    TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+    List<Everything> everythings = mapper.dsearch(everything);
+  achievementService.calwork(everythings);
+    sqlSession.close();
+    return everythings;}
+    else {
+      return null;
+    }
+  }
 
   @PostMapping("/delete")
   public int Delete(@RequestBody String jsonData) {
@@ -95,21 +115,32 @@ public class jdbcController {
 
     @RequestMapping("/download")
     public void testExcel(HttpServletResponse response,@RequestBody String jsonData) throws IOException {
+      float totalscore = 0;
       Gson gson = new Gson();
       System.out.println(jsonData);
-      List<Achievement> achievementList = gson.fromJson(jsonData, new TypeToken<List<Achievement>>(){}.getType());
+      List<Everything> Everythings = gson.fromJson(jsonData, new TypeToken<List<Everything>>(){}.getType());
       List<AchievementDO> achievementDOList = new ArrayList<>();
-      System.out.println(achievementList.get(0).toString());
-        for (Achievement achievement : achievementList) {
+        for (Everything everything : Everythings) {
             AchievementDO achievementDO = new AchievementDO();
-            achievementDO.setId(achievement.getId());
-            achievementDO.setName(achievement.getName());
-            achievementDO.setCategory(achievement.getCategory());
-            achievementDO.setYear(String.valueOf(achievement.getYear()));
-            achievementDO.setPersonId(achievement.getPersonId());
-            achievementDO.setLevel(achievement.getLevel());
+            achievementDO.setId(everything.getId());
+            achievementDO.setName(everything.getName());
+            achievementDO.setCategory(everything.getCategory());
+            achievementDO.setYear(String.valueOf(everything.getYear()));
+            achievementDO.setPersonId(everything.getPerson_id());
+            achievementDO.setLevel(everything.getLevel());
+            achievementDO.setCalscore(everything.getCalscore());
+            totalscore += everything.getCalscore();
             achievementDOList.add(achievementDO);
         }
+      AchievementDO achievementDO = new AchievementDO();
+      achievementDO.setId(null);
+      achievementDO.setName(null);
+      achievementDO.setCategory(null);
+      achievementDO.setYear("科研人员姓名为:");
+      achievementDO.setPersonId(Everythings.get(0).getPersonname());
+      achievementDO.setLevel("总工作量为:");
+      achievementDO.setCalscore(totalscore);
+      achievementDOList.add(achievementDO);
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition","attachment;filename="+"test.xlsx");//或者文件名后缀为xlsx
         ExcelUtils.writeExcel(response,achievementDOList);

@@ -7,9 +7,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 
 public class AchievementDO {
-    @ExcelProperty("荣誉编号")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研编号"})
     @ColumnWidth(20)
-    private int id;
+    private String id;
 
     public String getName() {
         return name;
@@ -19,11 +19,11 @@ public class AchievementDO {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class AchievementDO {
         this.year = year;
     }
 
-    public int getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
@@ -60,24 +60,35 @@ public class AchievementDO {
     }
 
 
-    @ExcelProperty("标题")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研名称"})
     @ColumnWidth(20)
     private String name;
 
-    @ExcelProperty("类别")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研类别"})
     @ColumnWidth(20)
     private String category;
 
-    @ExcelProperty("年份")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研时间"})
     @ColumnWidth(20)
     private String year;
 
-    @ExcelProperty("人员ID")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研人员编号"})
     @ColumnWidth(20)
-    private int personId;
+    private String personId;
 
-    @ExcelProperty("等级")
+    @ExcelProperty({"科研管理系统工作量统计报表","科研来源"})
     @ColumnWidth(20)
     private String level;
 
+    public float getCalscore() {
+        return calscore;
+    }
+
+    public void setCalscore(float calscore) {
+        this.calscore = calscore;
+    }
+
+    @ExcelProperty({"科研管理系统工作量统计报表","单项工作评分"})
+    @ColumnWidth(20)
+    private float calscore;
 }
