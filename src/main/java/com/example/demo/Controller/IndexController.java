@@ -13,9 +13,19 @@ public class IndexController {
     @RequestMapping("/home")
     public String home()
     {
-        jdbcController jdbc = new jdbcController();
-        System.out.println("hello"+share.getTmpachievements());
-        return "home";
+        return "inquiry";
+    }
+
+    @RequestMapping("/adm")
+    public String adm()
+    {
+        return "administration";
+    }
+
+    @RequestMapping("/cal")
+    public String cal()
+    {
+        return "calculation";
     }
 
     @RequestMapping("/add")

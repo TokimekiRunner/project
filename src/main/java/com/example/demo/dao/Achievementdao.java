@@ -92,9 +92,10 @@ public class Achievementdao {
         String sql = "SELECT a.id, a.name, a.year, a.category, a.level, a.person_id, p.personname, p.department, p.position\n" +
                 "FROM achievements a\n" +
                 "JOIN persons p ON a.person_id = p.person_id\n" +
-                "WHERE a.name = ?";
-        //返回结果
-        List<Achievement> achievements = jdbcTemplate.query(sql, new Object[]{name}, new BeanPropertyRowMapper(Achievement.class));
+                "WHERE a.name LIKE \'%"+ name+"%\'";
+        //返回结果LIKE '%def%'
+        System.out.println(sql);
+        List<Achievement> achievements = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Achievement.class));
 
         return achievements;
     }

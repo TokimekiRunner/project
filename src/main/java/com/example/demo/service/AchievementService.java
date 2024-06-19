@@ -2,9 +2,9 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.Achievement;
+import com.example.demo.entity.Everything;
 import com.example.demo.entity.Person;
 
-import java.util.HashSet;
 import java.util.List;
 
 public interface AchievementService
@@ -18,5 +18,11 @@ public interface AchievementService
     String getAchievementByPersonname(String name);
     String getAchievementByname(String name);
     String getAchievementBytype(String type);
-    void deleteAchievementbyid(int id);
+    float calwork(List<Achievement> achievements);
+    int Insert(Everything everything);
+    int Delete(Everything everything);
+
+    int InsertPerson(Person person);
+    Person GetPerson(Person person);
+    int DeletePerson(Person person);
 }

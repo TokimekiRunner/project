@@ -1,0 +1,197 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科研成果管理系统</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script_a.js"></script>
+
+</head>
+
+<body>
+
+<h1>科研成果管理系统</h1>
+
+<div class="top_bar">
+  <div class="labels">
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/home">&nbsp;&nbsp;&nbsp;查询功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="查询功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/adm">&nbsp;&nbsp;&nbsp;管理功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="picked_label.png" alt="管理功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/cal">&nbsp;&nbsp;计算工作量&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="计算工作量">
+    </span>
+  </div>
+</div>
+
+<br>
+
+<div class="input_div">
+  <label for="function">功能选择：</label>
+  <select class="select" id="function">
+    <option value="none">-请选择-</option>
+    <option value="add">新增成果信息</option>
+    <option value="delete">删除成果信息</option>
+  </select>
+</div>
+
+<br>
+
+<!--新增功能-->
+<div id="add_form" class="container" style="display:none;">
+  <form name="add" action="" method="post">
+    <fieldset class="field">
+      <legend>新增成果信息：</legend>
+      <div class="input_div" align="center">
+        <label for="id_a">成果编号：</label>
+        <input type="text" id="id_a" name="id">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="name_a">成果名称：</label>
+        <input type="text" id="name_a" name="name">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="category_a">成果种类：</label>
+        <select class="select" id="category_a" name="category">
+          <option value="">-请选择-</option>
+          <option value="research">research</option>
+          <option value="award">award</option>
+          <option value="patent">patent</option>
+          <option value="visit">visit</option>
+        </select>
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="year_a">成果年份：</label>
+        <input type="text" id="year_a" name="year">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="level_a">成果等级：</label>
+        <input type="text" id="level_a" name="level">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="person_id_a">人员编号：</label>
+        <input type="text" id="person_id_a" name="person_id">
+      </div>
+
+      <br>
+
+      <div id="research_a" class="input_addition" align="center" style="display: none;">
+        <div class="input_div" align="center">
+          <label for="research_meeting_name">会议名称：</label>
+          <input type="text" id="research_meeting_name" name="meeting_name">
+        </div>
+
+        <br>
+
+        <div class="input_div" align="center">
+          <label for="research_meeting_level">会议等级：</label>
+          <input type="text" id="research_meeting_level" name="meeting_level">
+        </div>
+
+        <br>
+
+      </div>
+
+      <div id="award_a" class="input_addition" align="center" style="display:none;">
+        <div class="input_div" align="center">
+          <label for="award_source">获奖来源：</label>
+          <input type="text" id="award_source" name="award_source">
+        </div>
+
+        <br>
+
+        <div class="input_div" align="center">
+          <label for="award_level">获奖等级：</label>
+          <input type="text" id="award_level" name="award_level">
+        </div>
+
+        <br>
+
+      </div>
+
+      <div id="patent_a" class="input_addition" align="center" style="display:none;">
+        <div class="input_div" align="center">
+          <label for="patent_number">专利编号：</label>
+          <input type="text" id="patent_number" name="patent_num">
+        </div>
+
+        <br>
+
+      </div>
+
+      <div id="visit_a" class="input_addition" align="center" style="display:none;">
+        <div class="input_div" align="center">
+          <label for="visit_destination">出访目的地：</label>
+          <input type="text" id="visit_destination" name="dest">
+        </div>
+
+        <br>
+
+        <div class="input_div" align="center">
+          <label for="visit_period">出访日期：</label>
+          <input type="text" id="visit_period" name="period">
+        </div>
+
+        <br>
+
+      </div>
+
+      <button type="submit" class="submit">新增</button>
+
+    </fieldset>
+  </form>
+</div>
+
+<!--删除功能-->
+<div id="delete_form" class="container" style="display:none;">
+  <form name="delete" action="" method="post">
+    <fieldset class="field">
+      <legend>删除成果信息：</legend>
+      <div class="input_div" align="center">
+        <label for="id_d">待删除成果编号：</label>
+        <input type="text" id="id_d" name="id">
+        <button type="submit" class="button_a">删除</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<br>
+
+<div class="prompt" id="insert_s" style="display: none">成功插入以下数据：</div>
+<div class="prompt" id="insert_e" style="display: none">插入失败！！！</div>
+<div class="prompt" id="delete_s" style="display: none">成功删除以下数据：</div>
+<div class="prompt" id="delete_e" style="display: none">删除失败！！！</div>
+
+<br>
+
+<table align="center"></table>
+
+<br>
+
+</body>
+
+</html>

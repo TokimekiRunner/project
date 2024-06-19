@@ -42,6 +42,8 @@ public class jdbcController {
     private BookService bookService;
     @Autowired
     private AchievementService achievementService;
+
+
     @ResponseBody
     //写一个list请求，查询数据库信息
     @RequestMapping("/all")
@@ -58,22 +60,46 @@ public class jdbcController {
         return achievements;
     }
 
-
+   // @ResponseBody
     @PostMapping("/test")
-    public String handleAjaxRequest(@RequestBody String jsonData) {
+    public List<Everything> handleAjaxRequest(@RequestBody String jsonData) {
         Gson gson = new Gson();
-        SearchObject searchObject = gson.fromJson(jsonData, SearchObject.class);
-        System.out.println(searchObject.getResearchAuthor());
-        System.out.println(searchObject.getId());
-        if(searchObject.getId().isEmpty()){
-            System.out.println("yes");
-        }
-        return "success";
+        System.out.println(jsonData);
+    //    SearchObject searchObject = gson.fromJson(jsonData, SearchObject.class);
+      Everything everything = gson.fromJson(jsonData, Everything.class);
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        // 执行sql
+        //方式一：getMapper
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        List<Everything> everythings = mapper.dsearch(everything);
+       // System.out.println(achievementService.calwork(achievements));
+      sqlSession.close();
+        return everythings;
     }
+
+
+  @PostMapping("/delete")
+  public int Delete(@RequestBody String jsonData) {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+  //  Everything everything = gson.fromJson(jsonData, Everything.class);
+    Everything[] everythingArray = gson.fromJson(jsonData, Everything[].class);
+    Everything everything = everythingArray[0];
+    // 执行sql
+    //方式一：getMapper
+    achievementService.Delete(everything);
+    // System.out.println(achievementService.calwork(achievements));
+    return 1;
+  }
+
+
     @RequestMapping("/download")
-    public void testExcel(HttpServletResponse response) throws IOException {
-        List<AchievementDO> achievementDOList = new ArrayList<>();
-               List<Achievement> achievementList = share.getTmpachievements();
+    public void testExcel(HttpServletResponse response,@RequestBody String jsonData) throws IOException {
+      Gson gson = new Gson();
+      System.out.println(jsonData);
+      List<Achievement> achievementList = gson.fromJson(jsonData, new TypeToken<List<Achievement>>(){}.getType());
+      List<AchievementDO> achievementDOList = new ArrayList<>();
+      System.out.println(achievementList.get(0).toString());
         for (Achievement achievement : achievementList) {
             AchievementDO achievementDO = new AchievementDO();
             achievementDO.setId(achievement.getId());
@@ -105,170 +131,39 @@ public class jdbcController {
         String sql = "insert into book values(101,?,'lyl',152)";
         return jdbcTemplate.update(sql,name);
     }
+  @PostMapping("/insert")
+  public void InsertInfo(@RequestBody String jsonData) {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    Everything everything = gson.fromJson(jsonData, Everything.class);
+    achievementService.Insert(everything);
+    return;
+  }
 
-    @RequestMapping("/insert_achievement")
-    public String insert_achievement(@RequestParam("id") int id
-    ,@RequestParam("name") String name
-    ,@RequestParam("level") String level
-    ,@RequestParam("type") String type
-    ,@RequestParam("year") int year
-    ,@RequestParam("person_id") int person_id){
-        System.out.println("hello");
-        Achievement achievement = new Achievement(id,name,type,year,person_id,level);
-        achievementService.insertAchievement(achievement);
-        return "redirect:/home";
+  @PostMapping("/insertperson")
+  public void InsertPerson(@RequestBody String jsonData) {
+      Gson gson = new Gson();
+      System.out.println(jsonData);
+      Person person = gson.fromJson(jsonData, Person.class);
+      achievementService.InsertPerson(person);
+      return;
+  }
 
-    }
+  @PostMapping("/getperson")
+  public Person GetPerson(@RequestBody String jsonData) {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    Person person = gson.fromJson(jsonData, Person.class);
+    Person result = achievementService.GetPerson(person);
+    return result;
+  }
 
-    @RequestMapping("/insert_person")
-    public String insert_achievement(@RequestParam("person_id") int person_id
-            ,@RequestParam("personname") String personname
-            ,@RequestParam("department") String department
-            ,@RequestParam("position") String position){
-        Person person = new Person(person_id,personname,department,position);
-        achievementService.insertPerson(person);
-        return "redirect:/home";
-
-    }
-    @RequestMapping("/deleteachievementbyid")
-    public String DeleteAchievementsById(@RequestParam("id") int id,Model model){
-        achievementService.deleteAchievementbyid(id);
-        return "redirect:/home";
-    }
-
-
-    @RequestMapping("/getachievements")
-    public String getAchievements(Model model){
-        Gson gson = new Gson();
-        String string = achievementService.getAchievements();
-
-        JsonArray jsonArray = gson.fromJson(string, JsonArray.class);
-
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        List<String> jsonArrayList = gson.fromJson(string, listType);
-  //      String personlist = jsonArrayList.get(0);
-        String achievementlist = jsonArrayList.get(0);
-//
-//        Type personListType = new TypeToken<List<Person>>() {}.getType();
-//        List<Person> personList = gson.fromJson(personlist, personListType);
-
-        Type achListType = new TypeToken<List<Achievement>>() {}.getType();
-        List<Achievement> AchList = gson.fromJson(achievementlist, achListType);
-    //    System.out.println(personlist);
-        model.addAttribute("jsonDataList",AchList);
-        share.setTmpachievements(AchList);
-        return "result";
-    }
-
-    @RequestMapping("/getachievementbyid")
-    public String getAchievementsById(@RequestParam("id") int id,Model model){
-        Gson gson = new Gson();
-        String string = achievementService.getAchievementById(id);
-
-        JsonArray jsonArray = gson.fromJson(string, JsonArray.class);
-
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        List<String> jsonArrayList = gson.fromJson(string, listType);
-        String personlist = jsonArrayList.get(0);
-        String achievementlist = jsonArrayList.get(1);
-
-        Type personListType = new TypeToken<List<Person>>() {}.getType();
-        List<Person> personList = gson.fromJson(personlist, personListType);
-
-        Type achListType = new TypeToken<List<Achievement>>() {}.getType();
-        List<Achievement> AchList = gson.fromJson(achievementlist, achListType);
-
-        System.out.println(achievementlist);
-        System.out.println(personlist);
-        model.addAttribute("jsonDataList",AchList);
-        share.setTmpachievements(AchList);
-        return "result";
-    }
-
-  //  @ResponseBody
-    @RequestMapping("/getachievementbypersonname")
-    @GetMapping("/jsondata")
-    public String getAchievementsByPersonname(@RequestParam("personname") String personname,Model model){
-
-        Gson gson = new Gson();
-        String string = achievementService.getAchievementByPersonname(personname);
-
-        JsonArray jsonArray = gson.fromJson(string, JsonArray.class);
-
-       Type listType = new TypeToken<List<String>>() {}.getType();
-        List<String> jsonArrayList = gson.fromJson(string, listType);
-        String personlist = jsonArrayList.get(0);
-        String achievementlist = jsonArrayList.get(1);
-
-        Type personListType = new TypeToken<List<Person>>() {}.getType();
-        List<Person> personList = gson.fromJson(personlist, personListType);
-
-        Type achListType = new TypeToken<List<Achievement>>() {}.getType();
-        List<Achievement> AchList = gson.fromJson(achievementlist, achListType);
-
-       System.out.println(achievementlist);
-        System.out.println(personlist);
-        model.addAttribute("jsonDataList",AchList);
-        share.setTmpachievements(AchList);
-
-        return "result";
-    }
-
-
-    @RequestMapping("/getachievementbyname")
-    @GetMapping("/jsondata")
-    public String getAchievementsByname(@RequestParam("name") String name,Model model){
-
-        Gson gson = new Gson();
-        String string = achievementService.getAchievementByname(name);
-
-        JsonArray jsonArray = gson.fromJson(string, JsonArray.class);
-
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        List<String> jsonArrayList = gson.fromJson(string, listType);
-        String personlist = jsonArrayList.get(0);
-        String achievementlist = jsonArrayList.get(1);
-
-        Type personListType = new TypeToken<List<Person>>() {}.getType();
-        List<Person> personList = gson.fromJson(personlist, personListType);
-
-        Type achListType = new TypeToken<List<Achievement>>() {}.getType();
-        List<Achievement> AchList = gson.fromJson(achievementlist, achListType);
-
-        System.out.println(achievementlist);
-        System.out.println(personlist);
-        model.addAttribute("jsonDataList",AchList);
-        share.setTmpachievements(AchList);
-
-        return "result";
-    }
-
-    @RequestMapping("/getachievementbytype")
-    @GetMapping("/jsondata")
-    public String getAchievementsBytype(@RequestParam("type") String type,Model model){
-
-        Gson gson = new Gson();
-        String string = achievementService.getAchievementBytype(type);
-
-        JsonArray jsonArray = gson.fromJson(string, JsonArray.class);
-
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        List<String> jsonArrayList = gson.fromJson(string, listType);
-        String personlist = jsonArrayList.get(0);
-        String achievementlist = jsonArrayList.get(1);
-
-        Type personListType = new TypeToken<List<Person>>() {}.getType();
-        List<Person> personList = gson.fromJson(personlist, personListType);
-
-        Type achListType = new TypeToken<List<Achievement>>() {}.getType();
-        List<Achievement> AchList = gson.fromJson(achievementlist, achListType);
-
-        System.out.println(achievementlist);
-        System.out.println(personlist);
-        model.addAttribute("jsonDataList",AchList);
-        share.setTmpachievements(AchList);
-
-        return "result";
-    }
-
+  @PostMapping("/deleteperson")
+  public void DeletePerson(@RequestBody String jsonData) {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    Person person = gson.fromJson(jsonData, Person.class);
+    achievementService.DeletePerson(person);
+    return ;
+  }
 }

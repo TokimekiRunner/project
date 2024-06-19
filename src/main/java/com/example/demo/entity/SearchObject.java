@@ -6,24 +6,34 @@ public class SearchObject {
         private String level;
         private String type;
         private String year;
-        private String person_id;
-        private String awardLevel;
-        private String researchAuthor;
-
-    public String getAwardLevel() {
-        return awardLevel;
+    private String person_name;
+    private String person_id;
+    public String getPerson_id() {
+        return person_id;
     }
 
-    public void setAwardLevel(String awardLevel) {
-        this.awardLevel = awardLevel;
+    public void setPerson_id(String person_id) {
+        this.person_id = person_id;
     }
+
+
+    public String getPerson_name() {
+        return person_name;
+    }
+
+    public void setPerson_name(String person_name) {
+        this.person_name = person_name;
+    }
+
+
+
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(int id) {
+        this.id = String.valueOf(id);
     }
 
     public String getName() {
@@ -58,19 +68,6 @@ public class SearchObject {
         this.year = year;
     }
 
-    public String getPerson_id() {
-        return person_id;
-    }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
-    }
 
-    public String getResearchAuthor() {
-        return researchAuthor;
-    }
-
-    public void setResearchAuthor(String researchAuthor) {
-        this.researchAuthor = researchAuthor;
-    }
 }

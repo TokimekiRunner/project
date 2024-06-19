@@ -9,6 +9,18 @@ public class Achievement {
     public int person_id;
     public String level;
 
+    @Override
+    public String toString() {
+        return "Achievement{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", category='" + category + '\'' +
+            ", year=" + year +
+            ", person_id=" + person_id +
+            ", level='" + level + '\'' +
+            '}';
+    }
+
     public Achievement(int id, String name, String category, int year, int person_id, String level) {
         this.id = id;
         this.name = name;

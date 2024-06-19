@@ -1,0 +1,86 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科研成果管理系统</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script_i.js"></script>
+</head>
+
+<body>
+
+<h1>科研成果管理系统</h1>
+<div class="top_bar">
+  <div class="labels">
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/home">&nbsp;&nbsp;&nbsp;查询功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="picked_label.png" alt="查询功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/adm">&nbsp;&nbsp;&nbsp;管理功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="管理功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/cal">&nbsp;&nbsp;计算工作量&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="计算工作量">
+    </span>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+  <form name="inquiry" action="" method="POST">
+    <fieldset class="field">
+      <legend>查询成果信息：</legend>
+      <div class="input_div" align="center">
+        <label for="name">成果名称：</label>
+        <input type="text" id="name" name="name">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="personname">人员姓名：</label>
+        <input type="text" id="personname" name="personname">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="category">成果种类：</label>
+        <select class="select" id="category" name="category">
+          <option value="">-请选择-</option>
+          <option value="research">research</option>
+          <option value="award">award</option>
+          <option value="patent">patent</option>
+          <option value="visit">visit</option>
+        </select>
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="year">成果年份：</label>
+        <input type="text" id="year" name="year">
+      </div>
+
+      <br>
+
+      <button type="submit" class="submit" id="submit_i">查询</button>
+
+    </fieldset>
+  </form>
+</div>
+
+<br>
+
+<table align="center"></table>
+
+<br>
+
+</body>
+</html>

@@ -13,4 +13,86 @@
         select * from achievements
     </select>
 
+    <select id="dsearch"  resultType="com.example.demo.entity.Everything" parameterType="com.example.demo.entity.Everything">
+        select * from achievements a LEFT JOIN persons p ON a.person_id = p.person_id LEFT JOIN award aw ON a.id = aw.id LEFT JOIN visit v ON a.id = v.id LEFT JOIN research r ON a.id = r.id LEFT JOIN patent pa ON a.id= pa.id
+        <where>
+            <if test="id != null and id !=''">
+                and a.id = #{id}
+            </if>
+            <if test="person_id != null and person_id !=''">
+                and a.person_id = #{person_id}
+            </if>
+            <if test="personname != null and personname !=''">
+                and p.personname = #{personname}
+            </if>
+        <if test="name != null and name !=''">
+            and a.name like concat('%',#{name},'%')
+        </if>
+            <if test="level != null and level !=''">
+                AND a.level = #{level}
+            </if>
+            <if test="category != null and category !=''">
+                AND a.category = #{category}
+            </if>
+            <if test="year != null and year !=''">
+                AND a.year = #{year}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="allsearch"  resultType="com.example.demo.entity.Everything" parameterType="java.lang.Integer">
+        select * from research WHERE id = #{id}
+    </select>
+    <select id="awardsearch"  resultType="com.example.demo.entity.Everything" parameterType="java.lang.Integer">
+        select * from award WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.Everything">
+        INSERT INTO achievements (id, name, category, year, person_id, level)
+        VALUES (#{id}, #{name}, #{category}, #{year}, #{person_id}, #{level});
+    </insert>
+    <insert id="insertresearch" parameterType="com.example.demo.entity.Everything">
+        INSERT INTO research (id,meeting_name,meeting_level)
+        VALUES (#{id},#{meeting_name},#{meeting_level})
+    </insert>
+    <insert id="insertaward" parameterType="com.example.demo.entity.Everything">
+        INSERT INTO award (id,award_level,award_source)
+        VALUES (#{id},#{award_level},#{award_source})
+    </insert>
+    <insert id="insertpatent" parameterType="com.example.demo.entity.Everything">
+        INSERT INTO patent (id,patent_num)
+        VALUES (#{id},#{patent_num})
+    </insert>
+    <insert id="insertvisit" parameterType="com.example.demo.entity.Everything">
+        INSERT INTO visit (id,dest,period)
+        VALUES (#{id},#{dest},#{period})
+    </insert>
+
+    <delete id="delete" parameterType="com.example.demo.entity.Everything">
+        DELETE FROM achievements WHERE id = #{id}
+    </delete>
+    <delete id="deleteresearch" parameterType="com.example.demo.entity.Everything">
+        DELETE FROM research WHERE id = #{id}
+    </delete>
+    <delete id="deletepatent" parameterType="com.example.demo.entity.Everything">
+        DELETE FROM patent WHERE id = #{id}
+    </delete>
+    <delete id="deleteaward" parameterType="com.example.demo.entity.Everything">
+        DELETE FROM award WHERE id = #{id}
+    </delete>
+    <delete id="deletevisit" parameterType="com.example.demo.entity.Everything">
+        DELETE FROM visit WHERE id = #{id}
+    </delete>
+
+    <insert id="insertperson" parameterType="com.example.demo.entity.Person">
+        INSERT INTO persons (person_id,personname,department,position)
+        VALUES (#{personId},#{personname},#{department},#{position})
+    </insert>
+    <select id="getperson" resultType="com.example.demo.entity.Person" parameterType="com.example.demo.entity.Person">
+        SELECT * from persons where person_id = #{personId}
+    </select>
+    <delete id="deleteperson" parameterType="com.example.demo.entity.Person">
+        DELETE FROM persons WHERE person_id = #{personId}
+    </delete>
 </mapper>
