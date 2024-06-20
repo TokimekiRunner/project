@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
 public class Rank {
-public int id;
+public int person_id;
 public String personname;
   public float calscore;
 
@@ -22,12 +22,12 @@ public String personname;
     this.personname = personname;
   }
 
-  public int getId() {
-    return id;
+  public int getPerson_id() {
+    return person_id;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setPerson_id(int person_id) {
+    this.person_id = person_id;
   }
 
 

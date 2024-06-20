@@ -33,16 +33,49 @@
 </div>
 
 <br>
+
+<div class="input_div">
+  <label for="function">&nbsp;&nbsp;&nbsp;功能选择：</label>
+  <select class="select" id="function">
+    <option value="none">-请选择-</option>
+    <option value="cal_p">查询人员工作量</option>
+    <option value="cal_y">查询年度工作量</option>
+  </select>
+</div>
+
 <br>
 
-<div class="container">
+<div class="container" id="cal_p" style="display: none">
   <form name="calculation" action="" method="POST">
     <fieldset class="field">
       <legend>计算科研人员工作量：</legend>
       <div class="input_div" align="center">
         <label for="person_id">人员编号：</label>
         <input type="text" id="person_id" name="person_id">
-        <button type="submit" class="button_a" id="submit_i">查询</button>
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="year_p">&nbsp;年&nbsp;&nbsp;份&nbsp;：</label>
+        <input type="text" id="year_p" name="year">
+      </div>
+
+      <br>
+
+      <button type="submit" class="submit" id="submit_i">查询</button>
+    </fieldset>
+  </form>
+</div>
+
+<div class="container" id="cal_y" style="display: none">
+  <form name="calculation_y" action="" method="POST">
+    <fieldset class="field">
+      <legend>计算年度工作量：</legend>
+      <div class="input_div" align="center">
+        <label for="year">&nbsp;年&nbsp;&nbsp;份&nbsp;：</label>
+        <input type="text" id="year" name="year">
+        <button type="submit" class="button_a" id="submit_i_y">查询</button>
       </div>
     </fieldset>
   </form>
@@ -50,8 +83,10 @@
 
 <br>
 
-<div class="prompt" id="cal_e" style="display: none">该人员编号不存在！！！</div>
+<div class="prompt" id="cal_e" style="display: none">该人员编号不存在或该人员没有科研成果！！！</div>
 <div class="prompt" id="cal_s" style="display: none">该人员工作量如下：</div>
+<div class="prompt" id="cal_y_e" style="display: none">年份输入错误或该年份没有科研成果！！！</div>
+<div class="prompt" id="cal_y_s" style="display: none">该年份工作量统计如下：</div>
 
 <br>
 
@@ -66,6 +101,7 @@
 <br>
 
 <button type="button" id="download" class="submit_cd" style="display: none;">保存到本地</button>
+<button type="button" id="download_y" class="submit_cd" style="display: none;">保存到本地</button>
 
 <br>
 

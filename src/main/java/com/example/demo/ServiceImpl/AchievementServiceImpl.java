@@ -176,7 +176,7 @@ public float caltotal(List<Everything> everythings){
     List<Rank> ranklist = new ArrayList<Rank>();
         for(Person person : people){
             Rank rank = new Rank();
-            rank.setId(person.getPerson_id());
+            rank.setPerson_id(person.getPerson_id());
             rank.setPersonname(person.getPersonname());
             Everything everything = new Everything();
             everything.setPerson_id(String.valueOf(person.getPerson_id()));

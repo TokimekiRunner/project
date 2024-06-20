@@ -42,9 +42,11 @@ public class jdbcController {
 
 
   @RequestMapping("/rank")
-  public List<Rank> Rank(){
-
-    String  year = "2024";
+  public List<Rank> Rank(@RequestBody String jsonData){
+    Gson gson = new Gson();
+    Everything receive = gson.fromJson(jsonData, Everything.class);
+    String year = receive.getYear();
+    System.out.println(year);
     List<Rank> result = achievementService.calrank(year);
 
     result.sort(Comparator.comparing(Rank::getCalscore).reversed());

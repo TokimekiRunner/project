@@ -1,6 +1,23 @@
 var responseData;
 $(document).ready(function () {
-  $("form").submit(function (event) {
+  $("#function").change(function(){
+    var selected_option = $(this).val();
+    $(".container").hide();
+    $(".prompt").hide();
+    $("#download").hide();
+    $("#download_y").hide();
+    var table = $("#table_1");
+    table.empty();
+    var table_ = $("#table_2");
+    table_.empty();
+    if(selected_option == "cal_p") {
+      $("#cal_p").show();
+    } else if (selected_option == "cal_y") {
+      $("#cal_y").show();
+    }
+  });
+
+  $("form[name='calculation']").submit(function (event) {
     event.preventDefault();
 
     var formData = {};
@@ -19,6 +36,7 @@ $(document).ready(function () {
         // 处理成功响应
         if(response[0]===undefined){
           $("#download").hide();
+          $("#download_y").hide();
           var table = $("#table_1");
           table.empty();
           var table = $("#table_2");
@@ -35,7 +53,7 @@ $(document).ready(function () {
           renderTable(response);
           $("#download").show();
 
-          $("#download").one("click", function() {
+          $("#download").click(function() {
             console.log("巩爷就是神！");
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
@@ -72,6 +90,7 @@ $(document).ready(function () {
         var table = $("#table_2");
         table.empty();
         $("#download").hide();
+        $("#download_y").hide();
         $(".prompt").hide();
         $("#cal_e").show();
         console.log("error");
@@ -158,6 +177,81 @@ $(document).ready(function () {
     row_.append("<td>" + jsonData[0].personname + "</td>");
     row_.append("<td>" + workload + "</td>");
     table_.append(row_);
+  }
+
+  $("form[name='calculation_y']").submit(function (event) {
+    event.preventDefault();
+
+    var formData = {};
+    $(this).serializeArray().forEach(function (item) {
+      formData[item.name] = item.value;
+    });
+
+    var jsonData = JSON.stringify(formData);
+    console.log(jsonData);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/rank",
+      data: jsonData,
+      contentType: 'application/json',
+      success: function (response) {
+        // 处理成功响应
+        if (response[0] === undefined) {
+          var table = $("#table_1");
+          table.empty();
+          $(".prompt").hide();
+          $("#cal_y_e").show();
+          console.log("error");
+        } else {
+          $(".prompt").hide();
+          $("#cal_y_s").show();
+          console.log("success");
+          console.log(response);
+          responseData = response;
+          renderTable_y(response);
+          $("#download_y").show();
+
+          $("#download_y").click(function() {
+            console.log("巩爷还是神！");
+            ////////////////////////////////////////////////
+            ////////////////////////////////////////////////
+            /////////////////////还得靠巩爷///////////////////
+            ////////////////////////////////////////////////
+            ////////////////////////////////////////////////
+          });
+        }
+      },
+      error: function (error) {
+        // 处理错误响应
+        var table = $("#table_1");
+        table.empty();
+        $(".prompt").hide();
+        $("#cal_y_e").show();
+        console.log("error");
+      }
+    });
+  });
+
+  function renderTable_y(data) {
+    var table = $("#table_1");
+    table.empty();
+
+    // 添加表头
+    var headerRow = $("<tr>");
+    headerRow.append("<th>Person ID</th>");
+    headerRow.append("<th>Person Name</th>");
+    headerRow.append("<th>Workload</th>");
+    table.append(headerRow);
+
+    // 添加数据行
+    var jsonData = data;
+    jsonData.forEach(function (achievement) {
+      var row = $("<tr>");
+      row.append("<td>" + achievement.person_id + "</td>");
+      row.append("<td>" + achievement.personname + "</td>");
+      row.append("<td>" + achievement.calscore + "</td>");
+      table.append(row);
+    });
   }
 });
 
