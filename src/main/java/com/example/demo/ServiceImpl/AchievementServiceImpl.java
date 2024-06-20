@@ -2,26 +2,24 @@ package com.example.demo.ServiceImpl;
 
 import com.example.demo.Util.MybatisUtil;
 import com.example.demo.dao.Achievementdao;
-import com.example.demo.dao.Bookdao;
-import com.example.demo.entity.Achievement;
-import com.example.demo.entity.Book;
-import com.example.demo.entity.Everything;
-import com.example.demo.entity.Person;
+import com.example.demo.entity.*;
 import com.example.demo.mapper.TestMapper;
 import com.example.demo.service.AchievementService;
+import com.example.demo.service.CalService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import jakarta.annotation.Resource;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AchievementServiceImpl implements AchievementService {
-
-
+    @Autowired
+    private CalService calService;
 
     @Resource
     private Achievementdao achievementdao;
@@ -160,6 +158,38 @@ public class AchievementServiceImpl implements AchievementService {
         return everythings;
     }
 
+
+    @Override
+public float caltotal(List<Everything> everythings){
+        float totalscore = 0;
+        for (Everything item : everythings) {
+        totalscore += item.getCalscore();}
+        return totalscore;
+}
+
+    @Override
+    public List<Rank> calrank(String year){
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+
+    List<Person> people = mapper.getallperson();
+    List<Rank> ranklist = new ArrayList<Rank>();
+        for(Person person : people){
+            Rank rank = new Rank();
+            rank.setId(person.getPerson_id());
+            rank.setPersonname(person.getPersonname());
+            Everything everything = new Everything();
+            everything.setPerson_id(String.valueOf(person.getPerson_id()));
+            everything.setYear(year);
+            List<Everything> result41p1y = mapper.dsearch(everything);//这里查询
+            result41p1y=calService.calwork(result41p1y);
+            rank.setCalscore(calService.caltotal(result41p1y));
+            ranklist.add(rank);
+        }
+        sqlSession.close();
+    return ranklist;
+    }
+
     @Override
     public int Insert(Everything everything){
         SqlSession sqlSession = MybatisUtil.getSqlSession();
@@ -236,5 +266,6 @@ public class AchievementServiceImpl implements AchievementService {
         sqlSession.close();
         return 1;
     }
+
 
 }

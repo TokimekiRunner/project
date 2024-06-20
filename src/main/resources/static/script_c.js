@@ -35,7 +35,7 @@ $(document).ready(function () {
           renderTable(response);
           $("#download").show();
 
-          $("#download").click(function() {
+          $("#download").one("click", function() {
             console.log("巩爷就是神！");
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象

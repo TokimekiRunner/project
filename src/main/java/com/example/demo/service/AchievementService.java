@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Achievement;
 import com.example.demo.entity.Everything;
 import com.example.demo.entity.Person;
+import com.example.demo.entity.Rank;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public interface AchievementService
     String getAchievementByname(String name);
     String getAchievementBytype(String type);
     List<Everything> calwork(List<Everything> everythings);
+    float caltotal(List<Everything> everythings);
+
+    List<Rank> calrank(String year);
+
     int Insert(Everything everything);
     int Delete(Everything everything);
 

@@ -23,10 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.example.demo.entity.*;
 @Component
@@ -44,21 +41,22 @@ public class jdbcController {
     private AchievementService achievementService;
 
 
-    @ResponseBody
-    //写一个list请求，查询数据库信息
-    @RequestMapping("/all")
-    public List<Achievement> list(){
-        SqlSession sqlSession = MybatisUtil.getSqlSession();
-        // 执行sql
-        //方式一：getMapper
-        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
-        List<Achievement> achievements = mapper.getall();
+  @RequestMapping("/rank")
+  public List<Rank> Rank(){
 
+    String  year = "2024";
+    List<Rank> result = achievementService.calrank(year);
 
-        //关闭sqlSession
-        sqlSession.close();
-        return achievements;
+    result.sort(Comparator.comparing(Rank::getCalscore).reversed());
+
+    for(Rank rank : result){
+      System.out.println(rank.personname);
+      System.out.println(rank.calscore);
     }
+
+    return result;
+
+  }
 
    // @ResponseBody
     @PostMapping("/test")
@@ -117,6 +115,7 @@ public class jdbcController {
     public void testExcel(HttpServletResponse response,@RequestBody String jsonData) throws IOException {
       float totalscore = 0;
       Gson gson = new Gson();
+      System.out.println("new");
       System.out.println(jsonData);
       List<Everything> Everythings = gson.fromJson(jsonData, new TypeToken<List<Everything>>(){}.getType());
       List<AchievementDO> achievementDOList = new ArrayList<>();

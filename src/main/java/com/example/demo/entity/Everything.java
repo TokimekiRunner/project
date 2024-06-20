@@ -16,7 +16,8 @@ public class Everything {
   public String period;
   public String personname;
   public String department;
-
+  public String position;
+  public float calscore;
   public String getPosition() {
     return position;
   }
@@ -33,8 +34,7 @@ public class Everything {
     this.department = department;
   }
 
-  public String position;
-  public float calscore;
+
   public float getCalscore() {
     return calscore;
   }

@@ -92,6 +92,9 @@
     <select id="getperson" resultType="com.example.demo.entity.Person" parameterType="com.example.demo.entity.Person">
         SELECT * from persons where person_id = #{person_id}
     </select>
+    <select id="getallperson" resultType="com.example.demo.entity.Person">
+        SELECT * from persons
+    </select>
     <delete id="deleteperson" parameterType="com.example.demo.entity.Person">
         DELETE FROM persons WHERE person_id = #{person_id}
     </delete>
