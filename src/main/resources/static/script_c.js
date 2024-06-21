@@ -14,6 +14,8 @@ $(document).ready(function () {
       $("#cal_p").show();
     } else if (selected_option == "cal_y") {
       $("#cal_y").show();
+    } else if (selected_option == "cal_none") {
+      $("#cal_n").show();
     }
   });
 

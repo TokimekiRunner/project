@@ -1,9 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.Achievement;
-import com.example.demo.entity.Everything;
-import com.example.demo.entity.Person;
-import com.example.demo.entity.SearchObject;
+import com.example.demo.entity.*;
 
 import java.util.List;
 
@@ -27,4 +24,5 @@ public interface TestMapper {
 
     List<Person>getallperson();
     int deleteperson(Person person);
+    String getpassword(AdmUser admUser);
 }

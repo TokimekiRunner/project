@@ -98,4 +98,8 @@
     <delete id="deleteperson" parameterType="com.example.demo.entity.Person">
         DELETE FROM persons WHERE person_id = #{person_id}
     </delete>
+
+    <select id="getpassword" parameterType="com.example.demo.entity.AdmUser" resultType="String">
+        select userpassword from admuser where username = #{Username}
+    </select>
 </mapper>
