@@ -39,13 +39,13 @@ public class jdbcController {
     private BookService bookService;
     @Autowired
     private AchievementService achievementService;
-
+    private String year;
 
   @RequestMapping("/rank")
   public List<Rank> Rank(@RequestBody String jsonData){
     Gson gson = new Gson();
     Everything receive = gson.fromJson(jsonData, Everything.class);
-    String year = receive.getYear();
+     year = receive.getYear();
     System.out.println(year);
     List<Rank> result = achievementService.calrank(year);
 
@@ -148,6 +148,29 @@ public class jdbcController {
         System.out.println("hello");
     }
 
+  @RequestMapping("/download_rank")
+  public void Download_rank(HttpServletResponse response,@RequestBody String jsonData) throws IOException {
+    Gson gson = new Gson();
+    System.out.println(jsonData);
+    List<Rank> ranks= gson.fromJson(jsonData, new TypeToken<List<Rank>>(){}.getType());
+    List<RankDO> rankDOList = new ArrayList<>();
+    for (Rank rank : ranks) {
+      RankDO rankDO = new RankDO();
+      rankDO.setPerson_id(rank.getPerson_id());
+      rankDO.setPersonname(rank.getPersonname());
+      rankDO.setCalscore(rank.getCalscore());
+      rankDOList.add(rankDO);
+    }
+    RankDO rankDO = new RankDO();
+    rankDO.setPerson_id(null);
+    rankDO.setPersonname("年份为");
+    rankDO.setCalscore(Float.parseFloat(year));
+    rankDOList.add(rankDO);
+    response.setContentType("application/vnd.ms-excel");
+    response.setHeader("Content-Disposition","attachment;filename="+"test.xlsx");//或者文件名后缀为xlsx
+    ExcelUtils.writeRank(response,rankDOList);
+    System.out.println("hello");
+  }
 
     @RequestMapping("/alll")
     public List<Map<String,Object>> bookList(){

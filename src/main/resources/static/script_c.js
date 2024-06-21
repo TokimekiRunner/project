@@ -53,7 +53,7 @@ $(document).ready(function () {
           renderTable(response);
           $("#download").show();
 
-          $("#download").click(function() {
+          $("#download").one("click", function() {
             console.log("巩爷就是神！");
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
@@ -211,13 +211,33 @@ $(document).ready(function () {
           renderTable_y(response);
           $("#download_y").show();
 
-          $("#download_y").click(function() {
+          $("#download_y").one("click", function() {
             console.log("巩爷还是神！");
-            ////////////////////////////////////////////////
-            ////////////////////////////////////////////////
-            /////////////////////还得靠巩爷///////////////////
-            ////////////////////////////////////////////////
-            ////////////////////////////////////////////////
+            var jsonData = JSON.stringify(response);
+            // 创建 XMLHttpRequest 对象
+            var request = new XMLHttpRequest();
+            request.open('POST', "http://localhost:8080/download_rank", true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.responseType = 'blob';
+
+            request.onload = function(e) {
+              if (this.status === 200) {
+                var blob = this.response;
+                if (window.navigator.msSaveOrOpenBlob) {
+                  window.navigator.msSaveBlob(blob, "rank.xlsx");
+                } else {
+                  var downloadLink = window.document.createElement('a');
+                  downloadLink.href = window.URL.createObjectURL(blob);
+                  downloadLink.download = "rank.xlsx";
+                  document.body.appendChild(downloadLink);
+                  downloadLink.click();
+                  document.body.removeChild(downloadLink);
+                }
+              }
+            };
+
+            // 发送 AJAX POST 请求
+            request.send(jsonData);
           });
         }
       },
