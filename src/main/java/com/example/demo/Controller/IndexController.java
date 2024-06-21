@@ -2,13 +2,20 @@ package com.example.demo.Controller;
 
 
 import com.example.demo.Share;
+import com.example.demo.entity.AdmUser;
+import com.example.demo.entity.Everything;
+import com.example.demo.service.AchievementService;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
-    Share share = new Share();
+    @Autowired
+    private AchievementService achievementService;
 
     @RequestMapping("/home")
     public String home()
@@ -68,4 +75,18 @@ public class IndexController {
     {
         return "deletebyid";
     }
+
+
+    @RequestMapping("/login")
+    public String login(@RequestBody String jsonData){
+        Gson gson = new Gson();
+        AdmUser admUser = gson.fromJson(jsonData, AdmUser.class);
+        int flag = achievementService.verify(admUser);
+        if(flag == 0){
+            return "home";
+        }else{
+            return "adm";
+        }
+    }
+
 }

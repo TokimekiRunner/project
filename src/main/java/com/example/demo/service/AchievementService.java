@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 
-import com.example.demo.entity.Achievement;
-import com.example.demo.entity.Everything;
-import com.example.demo.entity.Person;
-import com.example.demo.entity.Rank;
+import com.example.demo.entity.*;
 
 import java.util.List;
 
@@ -30,4 +27,6 @@ public interface AchievementService
     int InsertPerson(Person person);
     Person GetPerson(Person person);
     int DeletePerson(Person person);
+
+    int verify(AdmUser admUser);
 }

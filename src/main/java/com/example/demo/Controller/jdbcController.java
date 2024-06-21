@@ -41,6 +41,7 @@ public class jdbcController {
     private AchievementService achievementService;
     private String year;
 
+
   @RequestMapping("/rank")
   public List<Rank> Rank(@RequestBody String jsonData){
     Gson gson = new Gson();

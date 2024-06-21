@@ -267,5 +267,21 @@ public float caltotal(List<Everything> everythings){
         return 1;
     }
 
+    public int verify(AdmUser admUser){
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        String truepassword = mapper.getpassword(admUser);
+        sqlSession.close();
+        if(truepassword.equals(admUser.getUserpassword())){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
+
+
+
 
 }
