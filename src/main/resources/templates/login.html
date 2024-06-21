@@ -1,0 +1,63 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科研成果管理系统</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script_l.js"></script>
+</head>
+
+<body>
+
+<h1>科研成果管理系统</h1>
+<div class="top_bar">
+  <div class="labels">
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/home">&nbsp;&nbsp;&nbsp;查询功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="查询功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/log">&nbsp;&nbsp;&nbsp;管理功能&nbsp;&nbsp;&nbsp;</a>
+      <img class="label" src="picked_label.png" alt="管理功能">
+    </span>
+    <span>
+      <a class="hyperlink" href="http://localhost:8080/cal">&nbsp;&nbsp;计算工作量&nbsp;&nbsp;</a>
+      <img class="label" src="label.png" alt="计算工作量">
+    </span>
+  </div>
+</div>
+
+<br>
+<br>
+
+<div class="container">
+  <form name="login" action="" method="POST">
+    <fieldset class="field">
+      <legend>管理员登录：</legend>
+      <div class="input_div" align="center">
+        <label for="username">用户名：</label>
+        <input type="text" id="username" name="Username">
+      </div>
+
+      <br>
+
+      <div class="input_div" align="center">
+        <label for="userpassword">密&nbsp;&nbsp;码：</label>
+        <input type="password" id="userpassword" name="Userpassword">
+      </div>
+
+      <br>
+
+      <button type="submit" class="submit" id="submit_i">登录</button>
+
+    </fieldset>
+  </form>
+</div>
+
+<br>
+
+</body>
+</html>
