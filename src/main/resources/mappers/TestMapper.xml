@@ -35,7 +35,7 @@
                 AND a.category = #{category}
             </if>
             <if test="year != null and year !=''">
-                AND a.year = #{year}
+                AND a.year like concat(#{year},'%')
             </if>
         </where>
 

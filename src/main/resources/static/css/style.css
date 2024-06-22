@@ -240,3 +240,11 @@ tr:nth-child(odd) {
 .popup-message {
   margin: 0;
 }
+
+.asdfgh {
+  color: black;
+  font-family: 楷体;
+  font-size: 24px;
+  font-weight: bolder;
+  text-align: center;
+}

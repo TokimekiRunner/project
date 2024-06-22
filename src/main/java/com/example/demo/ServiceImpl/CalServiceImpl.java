@@ -25,13 +25,13 @@ public class CalServiceImpl implements CalService {
       System.out.println(item.getCategory());
       switch (item.getCategory()){
         case "research":
-          if(item.getMeeting_level().equals("A")){
+          if(item.getMeeting_level().equals("A类期刊")){
             totalscore += tmp*3;
             item.setCalscore(tmp*3);
-          }else if (item.getMeeting_level().equals("B")){
+          }else if (item.getMeeting_level().equals("B类期刊")){
             totalscore += tmp*2;
             item.setCalscore(tmp*2);
-          } else if (item.getMeeting_level().equals("C")){
+          } else if (item.getMeeting_level().equals("C类期刊")){
             totalscore += tmp*1;
             item.setCalscore(tmp*1);
 

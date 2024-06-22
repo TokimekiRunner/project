@@ -22,6 +22,7 @@ $(document).ready(function () {
   $("form[name='calculation']").submit(function (event) {
     event.preventDefault();
 
+    $("#download").off("click");
     var formData = {};
     $(this).serializeArray().forEach(function (item) {
       formData[item.name] = item.value;
@@ -55,7 +56,7 @@ $(document).ready(function () {
           renderTable(response);
           $("#download").show();
 
-          $("#download").one("click", function() {
+          $("#download").on("click", function() {
             console.log("巩爷就是神！");
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
@@ -183,6 +184,7 @@ $(document).ready(function () {
 
   $("form[name='calculation_y']").submit(function (event) {
     event.preventDefault();
+    $("#download_y").off("click");
 
     var formData = {};
     $(this).serializeArray().forEach(function (item) {
@@ -213,7 +215,7 @@ $(document).ready(function () {
           renderTable_y(response);
           $("#download_y").show();
 
-          $("#download_y").one("click", function() {
+          $("#download_y").on("click", function() {
             console.log("巩爷还是神！");
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
