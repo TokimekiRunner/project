@@ -102,4 +102,7 @@
     <select id="getpassword" parameterType="com.example.demo.entity.AdmUser" resultType="String">
         select userpassword from admuser where username = #{Username}
     </select>
+    <select id="robust" parameterType="com.example.demo.entity.Person" resultType="com.example.demo.entity.Everything">
+        select * from achievements where person_id = #{person_id}
+    </select>
 </mapper>

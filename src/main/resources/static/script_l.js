@@ -1,4 +1,6 @@
 var responseData;
+const ipAddress = '47.93.252.177';
+
 $(document).ready(function () {
   $("form").submit(function (event) {
     event.preventDefault();
@@ -12,7 +14,7 @@ $(document).ready(function () {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/login",
+      url: "http://"+ipAddress+":8080/login",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -20,7 +22,7 @@ $(document).ready(function () {
         console.log("success");
         console.log(response);
         if (response) {
-          window.location.href = "http://localhost:8080/adm";
+          window.location.href = "http://"+ipAddress+":8080/adm";
         }
         else {
           $("<div class='success-message'>用户名或密码错误</div>").appendTo("body").fadeIn();

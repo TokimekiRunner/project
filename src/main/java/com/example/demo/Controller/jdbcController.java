@@ -144,7 +144,7 @@ public class jdbcController {
       achievementDO.setCalscore(totalscore);
       achievementDOList.add(achievementDO);
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition","attachment;filename="+"test.xlsx");//或者文件名后缀为xlsx
+        response.setHeader("Content-Disposition","attachment;filename="+"Personwork.xlsx");//或者文件名后缀为xlsx
         ExcelUtils.writeExcel(response,achievementDOList);
         System.out.println("hello");
     }
@@ -215,12 +215,24 @@ public class jdbcController {
   }
 
   @PostMapping("/deleteperson")
-  public void DeletePerson(@RequestBody String jsonData) {
+  public int DeletePerson(@RequestBody String jsonData) {
     Gson gson = new Gson();
     System.out.println(jsonData);
     Person person = gson.fromJson(jsonData, Person.class);
+    SqlSession sqlSession = MybatisUtil.getSqlSession();
+    // 执行sql
+    //方式一：getMapper
+    TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+    List<Everything> everythings = mapper.robust(person);
+    int flag = everythings.size();
+    System.out.println(flag);
+    if (flag != 0 ) {
+
+      return flag;
+    }
     achievementService.DeletePerson(person);
-    return ;
+    return 0;
   }
+
 
 }

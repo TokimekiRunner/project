@@ -15,9 +15,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/achievement?useUnicode=true&amp;characterEncoding=utf8"/>
-                <property name="username" value="root"/>
-                <property name="password" value="Why&amp;357841269"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/project?useUnicode=true&amp;characterEncoding=utf8"/>
+                <property name="username" value="project"/>
+                <property name="password" value="123456"/>
             </dataSource>
         </environment>
     </environments>

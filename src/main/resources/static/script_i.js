@@ -1,4 +1,6 @@
 var responseData;
+const ipAddress = '47.93.252.177';
+
 $(document).ready(function () {
   $("form").submit(function (event) {
     event.preventDefault();
@@ -12,7 +14,7 @@ $(document).ready(function () {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/test",
+      url: "http://"+ipAddress+":8080/test",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -61,7 +63,7 @@ $(document).ready(function () {
         console.log(jsonData_detail);
         $.ajax({
           type: "POST",
-          url: "http://localhost:8080/test",
+          url: "http://"+ipAddress+":8080/test",
           data: jsonData_detail,
           contentType: 'application/json',
           success: function (response) {

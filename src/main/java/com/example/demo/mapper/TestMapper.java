@@ -21,6 +21,7 @@ public interface TestMapper {
     int deletepatent(Everything everything);
     int insertperson(Person person);
     Person getperson(Person person);
+    List<Everything> robust(Person person);
 
     List<Person>getallperson();
     int deleteperson(Person person);

@@ -1,3 +1,5 @@
+const ipAddress = '47.93.252.177';
+
 $(document).ready(function() {
   $("#function").change(function(){
     var selected_option = $(this).val();
@@ -47,7 +49,7 @@ $(document).ready(function() {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/insert",
+      url: "http://"+ipAddress+":8080/insert",
       data: jsonData,
       contentType:'application/json',
       success: function(response) {
@@ -108,7 +110,7 @@ $(document).ready(function() {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/test",
+      url: "http://"+ipAddress+":8080/test",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -181,7 +183,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/delete",
+      url: "http://"+ipAddress+":8080/delete",
       data: jsonData,
       contentType:'application/json',
       success: function(response) {
@@ -219,7 +221,7 @@ $(document).ready(function() {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/insertperson",
+      url: "http://"+ipAddress+":8080/insertperson",
       data: jsonData,
       contentType:'application/json',
       success: function(response) {
@@ -278,7 +280,7 @@ $(document).ready(function() {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/getperson",
+      url: "http://"+ipAddress+":8080/getperson",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -286,11 +288,12 @@ $(document).ready(function() {
         console.log(response);
         responseData = response;
         console.log(response);
-        if(response === null) {
+        if(response === "") {
           $(".prompt").hide();
-          $("#delete_p_e").show();
+          $("#delete_p_n_e").show();
           var table = $("table");
           table.empty();
+          $("#confirm_delete_p").hide();
           console.log("error");
         } else {
           console.log("success");
@@ -345,7 +348,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/deleteperson",
+      url: "http://"+ipAddress+":8080/deleteperson",
       data: jsonData,
       contentType:'application/json',
       success: function(response) {
@@ -355,14 +358,23 @@ $(document).ready(function() {
         table.empty();
         console.log("success del");
         console.log(response);
-        $("<div class='success-message'>删除成功</div>").appendTo("body").fadeIn();
-        setTimeout(function(){
-          $(".success-message").fadeOut();
-        }, 3000);
+        if(response !== 0){
+          $(".prompt").hide();
+          $("#delete_p_c_e").show();
+          var table = $("table");
+          table.empty();
+          console.log("error");
+        }else{
+          $("<div class='success-message'>删除成功</div>").appendTo("body").fadeIn();
+          setTimeout(function(){
+            $(".success-message").fadeOut();
+          }, 3000);
+        }
+
       },
       error: function(error) {
         $(".prompt").hide();
-        $("#delete_p_e").show();
+        $("#delete_p_c_e").show();
         var table = $("table");
         table.empty();
         console.log("error");
@@ -379,7 +391,7 @@ function inquiry_a() {
   console.log(jsonData);
   $.ajax({
     type: "POST",
-    url: "http://localhost:8080/test",
+    url: "http://"+ipAddress+":8080/test",
     data: jsonData,
     contentType: 'application/json',
     success: function (response) {
@@ -428,7 +440,7 @@ function renderTable_i(data) {
       console.log(jsonData_detail);
       $.ajax({
         type: "POST",
-        url: "http://localhost:8080/test",
+        url: "http://"+ipAddress+":8080/test",
         data: jsonData_detail,
         contentType: 'application/json',
         success: function (response) {

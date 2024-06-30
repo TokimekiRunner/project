@@ -1,4 +1,5 @@
 var responseData;
+const ipAddress = '47.93.252.177';
 $(document).ready(function () {
   $("#function").change(function(){
     var selected_option = $(this).val();
@@ -32,7 +33,7 @@ $(document).ready(function () {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/calculate",
+      url: "http://"+ipAddress+":8080/calculate",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -61,7 +62,7 @@ $(document).ready(function () {
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
             var request = new XMLHttpRequest();
-            request.open('POST', "http://localhost:8080/download", true);
+            request.open('POST', "http://"+ipAddress+":8080/download", true);
             request.setRequestHeader('Content-Type', 'application/json');
             request.responseType = 'blob';
 
@@ -69,11 +70,11 @@ $(document).ready(function () {
               if (this.status === 200) {
                 var blob = this.response;
                 if (window.navigator.msSaveOrOpenBlob) {
-                  window.navigator.msSaveBlob(blob, "test.xlsx");
+                  window.navigator.msSaveBlob(blob, "personwork.xlsx");
                 } else {
                   var downloadLink = window.document.createElement('a');
                   downloadLink.href = window.URL.createObjectURL(blob);
-                  downloadLink.download = "test.xlsx";
+                  downloadLink.download = "personwork.xlsx";
                   document.body.appendChild(downloadLink);
                   downloadLink.click();
                   document.body.removeChild(downloadLink);
@@ -137,7 +138,7 @@ $(document).ready(function () {
         console.log(jsonData_detail);
         $.ajax({
           type: "POST",
-          url: "http://localhost:8080/test",
+          url: "http://"+ipAddress+":8080/test",
           data: jsonData_detail,
           contentType: 'application/json',
           success: function (response) {
@@ -195,7 +196,7 @@ $(document).ready(function () {
     console.log(jsonData);
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/rank",
+      url: "http://"+ipAddress+":8080/rank",
       data: jsonData,
       contentType: 'application/json',
       success: function (response) {
@@ -220,7 +221,7 @@ $(document).ready(function () {
             var jsonData = JSON.stringify(response);
             // 创建 XMLHttpRequest 对象
             var request = new XMLHttpRequest();
-            request.open('POST', "http://localhost:8080/download_rank", true);
+            request.open('POST', "http://"+ipAddress+":8080/download_rank", true);
             request.setRequestHeader('Content-Type', 'application/json');
             request.responseType = 'blob';
 
